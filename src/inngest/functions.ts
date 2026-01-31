@@ -1,12 +1,12 @@
 import { inngest } from "./client";
 import { generateText } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { createOpenAI } from "@ai-sdk/openai";
-import { createAnthropic } from "@ai-sdk/anthropic";
+// import { createOpenAI } from "@ai-sdk/openai";
+// import { createAnthropic } from "@ai-sdk/anthropic";
 
 const google = createGoogleGenerativeAI({});
-const openai = createOpenAI();
-const anthropic = createAnthropic({});
+// const openai = createOpenAI();
+// const anthropic = createAnthropic({});
 
 export const execute = inngest.createFunction(
 	{ id: "execute-ai" },
@@ -20,6 +20,11 @@ export const execute = inngest.createFunction(
 				model: google("gemini-2.5-flash"),
 				system: "You are a helpful assistant.",
 				prompt: "What is 2+2?",
+				experimental_telemetry: {
+					isEnabled: true,
+					recordInputs: true,
+					recordOutputs: true,
+				},
 			},
 		);
 
