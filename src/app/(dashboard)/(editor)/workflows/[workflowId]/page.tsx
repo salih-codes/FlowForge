@@ -1,14 +1,14 @@
 import { requireAuth } from "@/lib/auth-utils";
 
 interface PageProps {
-  params: Promise<{
-    workflowId: string;
-  }>;
+	params: Promise<{
+		workflowId: string;
+	}>;
 }
 
 export default async function Page({ params }: PageProps) {
-  await requireAuth();
+	await requireAuth();
 
-  const { workflowId } = await params;
-  return <div>Workflows ID: {workflowId}</div>;
+	const { workflowId } = await params;
+	return <div>Workflows ID: {workflowId}</div>;
 }
