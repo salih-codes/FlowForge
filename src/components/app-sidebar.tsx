@@ -1,8 +1,10 @@
 "use client";
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
+
 import {
   Sidebar,
   SidebarContent,
@@ -19,13 +21,11 @@ import {
   CreditCardIcon,
   History,
   KeyIcon,
-  LogOut,
-  Star,
   StarIcon,
-  Logout,
   LogoutIcon,
 } from "@hugeicons/core-free-icons";
 import { authClient } from "@/lib/auth-client";
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscription";
 
 interface MenuItem {
   title: string;
@@ -51,6 +51,8 @@ const menuItems: MenuGroup[] = [
 export default function AppSidebar() {
   const router = useRouter();
   const pathname = usePathname();
+
+  const { hasActiveSubscription, isLoading } = useHasActiveSubscription();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -98,21 +100,23 @@ export default function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarMenuItem>
-          <SidebarMenuButton
-            tooltip="Upgrade to Pro"
-            className="gap-x-4 h-10 px-4"
-            onClick={() => {}}
-          >
-            <HugeiconsIcon icon={StarIcon} className="size-4" />
-            <span>Upgrade to Pro</span>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        {!hasActiveSubscription && !isLoading && (
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip="Upgrade to Pro"
+              className="gap-x-4 h-10 px-4"
+              onClick={() => authClient.checkout({ slug: "pro" })}
+            >
+              <HugeiconsIcon icon={StarIcon} className="size-4" />
+              <span>Upgrade to Pro</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        )}
         <SidebarMenuItem>
           <SidebarMenuButton
             tooltip="Billing Portal"
             className="gap-x-4 h-10 px-4"
-            onClick={() => {}}
+            onClick={() => authClient.customer.portal()}
           >
             <HugeiconsIcon icon={CreditCardIcon} className="size-4" />
             <span>Billing Portal</span>
