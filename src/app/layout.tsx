@@ -1,11 +1,10 @@
-import { NuqsAdapter } from "nuqs/adapters/next/app";
-
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Figtree } from "next/font/google";
+import { Figtree, Geist, Geist_Mono } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
-import { TRPCReactProvider } from "@/trpc/client";
-import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { cn } from "@/lib/utils";
+import { TRPCReactProvider } from "@/trpc/client";
 
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-sans" });
 

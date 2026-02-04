@@ -1,10 +1,16 @@
 "use client";
+import {
+	CreditCardIcon,
+	FolderOpenIcon,
+	History,
+	KeyIcon,
+	LogoutIcon,
+	StarIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-
-import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
-
 import {
 	Sidebar,
 	SidebarContent,
@@ -16,16 +22,8 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-	FolderOpenIcon,
-	CreditCardIcon,
-	History,
-	KeyIcon,
-	StarIcon,
-	LogoutIcon,
-} from "@hugeicons/core-free-icons";
-import { authClient } from "@/lib/auth-client";
 import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscription";
+import { authClient } from "@/lib/auth-client";
 
 interface MenuItem {
 	title: string;

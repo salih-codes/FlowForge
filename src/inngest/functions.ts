@@ -1,6 +1,7 @@
-import { inngest } from "./client";
-import { generateText } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { generateText } from "ai";
+import { inngest } from "./client";
+
 // import { createOpenAI } from "@ai-sdk/openai";
 // import { createAnthropic } from "@ai-sdk/anthropic";
 
