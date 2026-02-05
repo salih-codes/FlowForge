@@ -1,4 +1,10 @@
 {
 	"prisma.pinToPrisma6": true,
-	"css.lint.unknownAtRules": "ignore"
+	"css.lint.unknownAtRules": "ignore",
+	"editor.fontFamily": "Monaspace Argon",
+	"editor.fontLigatures": true,
+	"editor.fontSize": 13,
+	"editor.codeActionsOnSave": {
+		"source.organizeImports.biome": "explicit"
+	}
 }
