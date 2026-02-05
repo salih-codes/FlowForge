@@ -1,9 +1,9 @@
 "use client";
 
-import { Settings, Trash } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { NodeToolbar, Position } from "@xyflow/react";
+import { SettingsIcon, TrashIcon } from "lucide-react";
 import type { ReactNode } from "react";
+
 import { Button } from "./ui/button";
 
 type WorkflowNodeProps = {
@@ -28,10 +28,10 @@ export function WorkflowNode({
 			{!!showToolbar && (
 				<NodeToolbar>
 					<Button size="sm" variant="ghost" onClick={onSettings}>
-						<HugeiconsIcon icon={Settings} className="size-4" />
+						<SettingsIcon className="size-4" />
 					</Button>
 					<Button size="sm" variant="ghost" onClick={onDelete}>
-						<HugeiconsIcon icon={Trash} className="size-4" />
+						<TrashIcon className="size-4" />
 					</Button>
 				</NodeToolbar>
 			)}

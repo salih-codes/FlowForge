@@ -63,9 +63,9 @@ export default function AppSidebar() {
 							src="/logos/logo.svg"
 							width={30}
 							height={30}
-							alt="Nodebase"
+							alt="FlowForge"
 						/>
-						<span className="font-semibold text-sm">Nodebase</span>
+						<span className="font-semibold text-sm">FlowForge</span>
 					</SidebarMenuButton>
 				</SidebarMenuItem>
 			</SidebarHeader>

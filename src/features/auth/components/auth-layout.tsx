@@ -11,8 +11,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 					href="/"
 					className="flex items-cnter gap-2 self-center font-medium"
 				>
-					<Image src="/logos/logo.svg" alt="Nodebase" width={30} height={30} />
-					Nodebase
+					<Image src="/logos/logo.svg" alt="FlowForge" width={30} height={30} />
+					FlowForge
 				</Link>
 				{children}
 			</div>
