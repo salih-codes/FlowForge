@@ -53,7 +53,7 @@ export default function Page() {
 					<a
 						target="_blank"
 						rel="noopener"
-						href="https://fliezer-studio.sentry.io/issues/?project=4510805211348992"
+						href="https://red-admiral.sentry.io/issues/?project=4510805211348992"
 					>
 						Issues Page
 					</a>

@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint",
-		"inngest:dev": "npx --ignore-scripts=false inngest-cli@latest dev",
+		"inngest:dev": "bunx --ignore-scripts=false inngest-cli@latest dev",
 		"dev:all": "mprocs"
 	},
 	"dependencies": {
@@ -23,7 +23,7 @@
 		"@polar-sh/sdk": "^0.42.5",
 		"@prisma/adapter-pg": "^6",
 		"@prisma/client": "^6",
-		"@sentry/nextjs": "10",
+		"@sentry/nextjs": "^10",
 		"@tanstack/react-query": "^5.90.20",
 		"@trpc/client": "^11.9.0",
 		"@trpc/server": "^11.9.0",
