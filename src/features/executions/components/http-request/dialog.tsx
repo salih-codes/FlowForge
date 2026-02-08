@@ -170,8 +170,8 @@ export const HttpRequestDialog = ({
 											aria-invalid={fieldState.invalid}
 											placeholder={`
 												{
-													"productId": "{httpResponse.data.id}"
-													"name": "{httpResponse.data.name}"
+													"productId": "{{httpResponse.data.id}}"
+													"name": "{{httpResponse.data.name}}"
 												}
 												`}
 											className="min-h-30 font-mono text-sm"

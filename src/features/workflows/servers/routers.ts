@@ -60,12 +60,6 @@ export const workflowsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, nodes, edges } = input;
-      
-      // Verify workflow exists and belongs to user
-      await prisma.workflow.findUniqueOrThrow({
-        where: { id, userId: ctx.auth.user.id },
-        select: { id: true },
-      });
 
       // Transaction to ensure atomicity
       return await prisma.$transaction(async (tx) => {
@@ -97,9 +91,9 @@ export const workflowsRouter = createTRPCRouter({
             toInput: edge.targetHandle || "main",
           })),
         });
-        // Updating timestamp and returning the result
+        // Updating timestamp with ownership check - ensures atomic ownership verification
         const updatedWorkflow = await tx.workflow.update({
-          where: { id },
+          where: { id, userId: ctx.auth.user.id },
           data: { updatedAt: new Date() },
         });
 
