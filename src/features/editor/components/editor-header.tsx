@@ -1,6 +1,7 @@
 "use client";
 import { Save } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { useAtomValue } from "jotai";
 import Link from "next/link";
 import type React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -17,13 +18,27 @@ import { Input } from "@/components/ui/input";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
 	useSuspenseWorkflow,
+	useUpdateWorkflow,
 	useUpdateWorkflowName,
 } from "@/features/workflows/hooks/use-workflows";
+import { editorAtom } from "../store/atoms";
 
 export const EditorSaveButton = ({ workflowId }: { workflowId: string }) => {
+	const editor = useAtomValue(editorAtom);
+	const saveWorkflow = useUpdateWorkflow();
+
+	const handleSave = () => {
+		if (!editor) return;
+
+		const nodes = editor.getNodes();
+		const edges = editor.getEdges();
+
+		saveWorkflow.mutate({ id: workflowId, nodes, edges });
+	};
+
 	return (
 		<div className="ml-auto">
-			<Button size="sm" onClick={() => {}} disabled={false}>
+			<Button size="sm" onClick={handleSave} disabled={saveWorkflow.isPending}>
 				<HugeiconsIcon icon={Save} className="size-4" />
 			</Button>
 		</div>

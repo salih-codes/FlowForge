@@ -36,6 +36,70 @@ export const workflowsRouter = createTRPCRouter({
         },
       });
     }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        nodes: z.array(
+          z.object({
+            id: z.string(),
+            type: z.nativeEnum(NodeType).nullish(),
+            position: z.object({ x: z.number(), y: z.number() }),
+            data: z.record(z.string(), z.any()).optional(),
+          }),
+        ),
+        edges: z.array(
+          z.object({
+            source: z.string(),
+            target: z.string(),
+            sourceHandle: z.string().nullish(),
+            targetHandle: z.string().nullish(),
+          }),
+        ),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, nodes, edges } = input;
+
+      // Transaction to ensure atomicity
+      return await prisma.$transaction(async (tx) => {
+        // Delete connections first (they reference nodes via foreign keys)
+        await tx.connection.deleteMany({ where: { workflowId: id } });
+
+        // Then delete all existing nodes
+        await tx.node.deleteMany({ where: { workflowId: id } });
+
+        // Create new nodes
+        await tx.node.createMany({
+          data: nodes.map((node) => ({
+            id: node.id,
+            workflowId: id,
+            name: node.type || "unknown",
+            type: node.type ?? NodeType.INITIAL,
+            position: node.position,
+            data: node.data || {},
+          })),
+        });
+
+        // Create connections
+        await tx.connection.createMany({
+          data: edges.map((edge) => ({
+            workflowId: id,
+            fromNodeId: edge.source,
+            toNodeId: edge.target,
+            fromOutput: edge.sourceHandle || "main",
+            toInput: edge.targetHandle || "main",
+          })),
+        });
+        // Updating timestamp with ownership check - ensures atomic ownership verification
+        const updatedWorkflow = await tx.workflow.update({
+          where: { id, userId: ctx.auth.user.id },
+          data: { updatedAt: new Date() },
+        });
+
+        return updatedWorkflow;
+      });
+    }),
   updateName: protectedProcedure
     .input(z.object({ id: z.string(), name: z.string().min(1) }))
     .mutation(({ ctx, input }) => {

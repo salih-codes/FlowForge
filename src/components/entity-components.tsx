@@ -324,7 +324,10 @@ export const EntityItem = ({
 											<Button
 												size="icon"
 												variant="ghost"
-												onClick={(e) => e.stopPropagation()}
+												onClick={(e) => {
+													e.preventDefault();
+													e.stopPropagation();
+												}}
 											>
 												<HugeiconsIcon icon={MoreVertical} className="size-4" />
 											</Button>
