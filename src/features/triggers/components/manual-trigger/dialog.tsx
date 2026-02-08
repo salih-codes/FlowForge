@@ -27,7 +27,7 @@ export const ManualTriggerDialog = ({
 				</DialogHeader>
 				<div className="py-4">
 					<p className="text-sm text-muted-foreground">
-						This a manual trigger node. No extra settings needed
+						This is a manual trigger node. No extra settings needed
 					</p>
 				</div>
 			</DialogContent>

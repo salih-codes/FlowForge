@@ -43,7 +43,7 @@ export const workflowsRouter = createTRPCRouter({
         nodes: z.array(
           z.object({
             id: z.string(),
-            type: z.string().nullish(),
+            type: z.nativeEnum(NodeType).nullish(),
             position: z.object({ x: z.number(), y: z.number() }),
             data: z.record(z.string(), z.any()).optional(),
           }),
@@ -60,8 +60,11 @@ export const workflowsRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { id, nodes, edges } = input;
-      const workflow = await prisma.workflow.findUniqueOrThrow({
+      
+      // Verify workflow exists and belongs to user
+      await prisma.workflow.findUniqueOrThrow({
         where: { id, userId: ctx.auth.user.id },
+        select: { id: true },
       });
 
       // Transaction to ensure atomicity
@@ -78,7 +81,7 @@ export const workflowsRouter = createTRPCRouter({
             id: node.id,
             workflowId: id,
             name: node.type || "unknown",
-            type: node.type as NodeType,
+            type: node.type ?? NodeType.INITIAL,
             position: node.position,
             data: node.data || {},
           })),
@@ -94,13 +97,13 @@ export const workflowsRouter = createTRPCRouter({
             toInput: edge.targetHandle || "main",
           })),
         });
-        // Updating timestamp
-        await tx.workflow.update({
+        // Updating timestamp and returning the result
+        const updatedWorkflow = await tx.workflow.update({
           where: { id },
           data: { updatedAt: new Date() },
         });
 
-        return workflow;
+        return updatedWorkflow;
       });
     }),
   updateName: protectedProcedure

@@ -145,7 +145,7 @@ export const HttpRequestDialog = ({
 										id={field.name}
 										aria-invalid={fieldState.invalid}
 										autoComplete="off"
-										placeholder="https://api.example/com/products/{{httpResponse.data.id}}"
+										placeholder="https://api.example.com/products/{{httpResponse.data.id}}"
 									/>
 									{fieldState.invalid && (
 										<FieldError errors={[fieldState.error]} />
@@ -181,7 +181,8 @@ export const HttpRequestDialog = ({
 										)}
 										<FieldDescription>
 											JSON with template variables. Use {"{{variables}}"} from
-											simple values or {"{{json variable}"} to stringify objects
+											simple values or {"{{json variable}}"} to stringify
+											objects
 										</FieldDescription>
 									</Field>
 								)}
