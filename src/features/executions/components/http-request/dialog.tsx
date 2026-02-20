@@ -30,6 +30,13 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
+	variableName: z
+		.string()
+		.min(1, { message: "Variable name is required" })
+		.regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, {
+			message:
+				"Variable name must start with a letter or underscore and contain only letters, numbers, and underscores",
+		}),
 	endpoint: z.url({ message: "Please enter a valid URL" }),
 	method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]),
 	body: z.string().optional(),
@@ -53,6 +60,7 @@ export const HttpRequestDialog = ({
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
+			variableName: defaultValues.variableName || "",
 			endpoint: defaultValues.endpoint || "",
 			method: defaultValues.method || "GET",
 			body: defaultValues.body || "",
@@ -71,6 +79,7 @@ export const HttpRequestDialog = ({
 	useEffect(() => {
 		if (open) {
 			form.reset({
+				variableName: defaultValues.variableName || "",
 				endpoint: defaultValues.endpoint || "",
 				method: defaultValues.method || "GET",
 				body: defaultValues.body || "",
@@ -78,6 +87,7 @@ export const HttpRequestDialog = ({
 		}
 	}, [open, defaultValues, form]);
 
+	const watchVariableName = form.watch("variableName") || "myApiCall";
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent>
@@ -92,6 +102,29 @@ export const HttpRequestDialog = ({
 						className="space-y-8 mt-4"
 						onSubmit={form.handleSubmit(handleSubmit)}
 					>
+						<Controller
+							name="variableName"
+							control={form.control}
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>Variable Name</FieldLabel>
+									<Input
+										{...field}
+										id={field.name}
+										aria-invalid={fieldState.invalid}
+										autoComplete="off"
+										placeholder="myApiCall"
+									/>
+									{fieldState.invalid && (
+										<FieldError errors={[fieldState.error]} />
+									)}
+									<FieldDescription>
+										Use this name to reference the result from other nodes:{" "}
+										{`{{${watchVariableName}.httpResponse.data}}`}
+									</FieldDescription>
+								</Field>
+							)}
+						/>
 						<Controller
 							name="method"
 							control={form.control}
