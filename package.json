@@ -7,7 +7,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "eslint",
-		"inngest:dev": "npx --ignore-scripts=false inngest-cli@latest dev",
+		"inngest:dev": "npx --ignore-scripts=false inngest-cli dev",
 		"dev:all": "mprocs"
 	},
 	"dependencies": {
